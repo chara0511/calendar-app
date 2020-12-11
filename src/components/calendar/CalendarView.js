@@ -1,5 +1,10 @@
 import React from 'react'
+import Navbar from '../ui'
 
-const CalendarView = () => <div>from CalendarView.js</div>
+const CalendarView = () => (
+  <div>
+    <Navbar />
+  </div>
+)
 
 export default CalendarView
