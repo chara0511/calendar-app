@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
+import { useDispatch } from 'react-redux'
+import { uiHandleModal } from '../../actions/uiAction'
 import Navbar from '../ui'
 import { messages } from '../../helpers/calendar-messages-es'
 import CalendarEvent from './CalendarEvent'
@@ -25,10 +27,12 @@ const myEventList = [
 
 const CalendarView = () => {
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month')
+  const dispatch = useDispatch()
 
-  const onDoubleClick = (e) => {
-    console.log(e)
+  const onDoubleClick = () => {
+    dispatch(uiHandleModal())
   }
+
   const onSelectEvent = (e) => {
     console.log(e)
   }
