@@ -3,7 +3,8 @@ import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import { useDispatch } from 'react-redux'
 import { uiHandleModal } from '../../actions/uiAction'
-import Navbar from '../ui'
+import { calendarActiveEvent } from '../../actions/calendarAction'
+import { AddNewFABtn, NavBar } from '../ui'
 import { messages } from '../../helpers/calendar-messages-es'
 import CalendarEvent from './CalendarEvent'
 import CalendarModal from './CalendarModal'
@@ -34,7 +35,7 @@ const CalendarView = () => {
   }
 
   const onSelectEvent = (e) => {
-    console.log(e)
+    dispatch(calendarActiveEvent(e))
   }
 
   const onView = (e) => {
@@ -58,15 +59,24 @@ const CalendarView = () => {
 
   return (
     <div>
-      <Navbar />
+      <NavBar />
 
-      <div style={{ display: 'flex', alignItems: 'center', height: '90vh' }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+          height: '90vh',
+          justifyContent: 'center',
+          margin: 'auto',
+        }}
+      >
         <BigCalendar
           localizer={localizer}
           events={myEventList}
           startAccessor="start"
           endAccessor="end"
-          style={{ height: 600, width: '100vw' }}
+          style={{ height: 600, width: '100vw', maxWidth: '1100px' }}
           messages={messages}
           eventPropGetter={eventStyleGetter}
           components={{ event: CalendarEvent }}
@@ -77,6 +87,8 @@ const CalendarView = () => {
         />
 
         <CalendarModal />
+
+        <AddNewFABtn />
       </div>
     </div>
   )

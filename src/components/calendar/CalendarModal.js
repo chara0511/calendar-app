@@ -6,6 +6,7 @@ import DateTimePicker from 'react-datetime-picker'
 import Swal from 'sweetalert2'
 import { uiHandleModal } from '../../actions/uiAction'
 import './CalendarModal.css'
+import { calendarAddNewEvent } from '../../actions/calendarAction'
 
 const customStyles = {
   content: {
@@ -77,7 +78,7 @@ const CalendarModal = () => {
 
     setIsValid(true)
 
-    // save in db
+    dispatch(calendarAddNewEvent(formValues))
 
     return closeModal()
   }
