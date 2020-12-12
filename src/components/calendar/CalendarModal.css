@@ -1,0 +1,7 @@
+.border-none > div {
+  border: none;
+}
+
+.react-datetime-picker input:focus {
+  outline: none;
+}
