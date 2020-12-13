@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { uiHandleModal } from '../../actions/uiAction'
 import { calendarActiveEvent } from '../../actions/calendarAction'
 import { AddNewFABtn, NavBar } from '../ui'
@@ -14,20 +14,20 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 moment.locale('es')
 
 const localizer = momentLocalizer(moment)
-
-const myEventList = [
-  {
-    title: 'Cumpleaños del jefe',
-    start: moment().toDate(),
-    end: moment().add(2, 'hours').toDate(),
-    bgColor: '#fafafa',
-    notes: 'Comprar el pastel',
-    user: { _id: '123', name: 'Chara-' },
-  },
-]
+// const myEventList = [
+//   {
+//     title: 'Cumpleaños del jefe',
+//     start: moment().toDate(),
+//     end: moment().add(2, 'hours').toDate(),
+//     bgColor: '#fafafa',
+//     notes: 'Comprar el pastel',
+//     user: { _id: '123', name: 'Chara-' },
+//   },
+// ]
 
 const CalendarView = () => {
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month')
+  const { events } = useSelector((state) => state.calendar)
   const dispatch = useDispatch()
 
   const onDoubleClick = () => {
@@ -35,6 +35,7 @@ const CalendarView = () => {
   }
 
   const onSelectEvent = (e) => {
+    console.log(e)
     dispatch(calendarActiveEvent(e))
   }
 
@@ -44,7 +45,7 @@ const CalendarView = () => {
   }
 
   const eventStyleGetter = (event, start, end, isSelected) => {
-    console.table(event, start, end, isSelected)
+    console.log({ event, start, end, isSelected })
 
     const style = {
       backgroundColor: '#367cf7',
@@ -73,7 +74,7 @@ const CalendarView = () => {
       >
         <BigCalendar
           localizer={localizer}
-          events={myEventList}
+          events={events}
           startAccessor="start"
           endAccessor="end"
           style={{ height: 600, width: '100vw', maxWidth: '1100px' }}

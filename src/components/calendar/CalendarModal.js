@@ -1,12 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Modal from 'react-modal'
 import moment from 'moment'
 import DateTimePicker from 'react-datetime-picker'
 import Swal from 'sweetalert2'
 import { uiHandleModal } from '../../actions/uiAction'
+import {
+  calendarActiveEventUpdated,
+  calendarAddNewEvent,
+  calendarClearActiveEvent,
+} from '../../actions/calendarAction'
 import './CalendarModal.css'
-import { calendarAddNewEvent } from '../../actions/calendarAction'
 
 const customStyles = {
   content: {
@@ -23,29 +27,43 @@ Modal.setAppElement('#root')
 
 const now = moment().minutes(0).seconds(0).add(1, 'hours')
 const nowPlusOneHour = now.clone().add(1, 'hours')
+const initialFormValues = {
+  title: '',
+  notes: '',
+  start: null,
+  end: null,
+}
 
 const CalendarModal = () => {
   const [startDate, setStartDate] = useState(now.toDate())
   const [endDate, setEndDate] = useState(nowPlusOneHour.toDate())
   const [isValid, setIsValid] = useState(true)
-  const [formValues, setFormValues] = useState({
-    title: 'Event',
-    notes: '',
-    start: now.toDate(),
-    end: nowPlusOneHour.toDate(),
-  })
+  const [formValues, setFormValues] = useState(initialFormValues)
 
   const { modal } = useSelector((state) => state.ui)
+  const { activeEvent } = useSelector((state) => state.calendar)
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (activeEvent) {
+      setStartDate(activeEvent.start)
+      setEndDate(activeEvent.end)
+      setFormValues(activeEvent)
+    }
+  }, [activeEvent])
 
   const { title, notes, start, end } = formValues
 
-  const handleInputChange = ({ target }) => {
-    setFormValues({ ...formValues, [target.name]: target.value })
+  const closeModal = () => {
+    setFormValues(initialFormValues)
+    setStartDate(now.toDate())
+    setEndDate(nowPlusOneHour.toDate())
+    dispatch(calendarClearActiveEvent())
+    dispatch(uiHandleModal())
   }
 
-  const closeModal = () => {
-    dispatch(uiHandleModal())
+  const handleInputChange = ({ target }) => {
+    setFormValues({ ...formValues, [target.name]: target.value })
   }
 
   const handleStartDateChange = (e) => {
@@ -73,12 +91,22 @@ const CalendarModal = () => {
     }
 
     if (title.trim().length < 2) {
-      setIsValid(false)
+      return setIsValid(false)
+    }
+
+    if (activeEvent) {
+      dispatch(calendarActiveEventUpdated(formValues))
+    } else {
+      dispatch(
+        calendarAddNewEvent({
+          ...formValues,
+          id: new Date().getTime(),
+          user: { _id: '123', name: 'Fer-' },
+        }),
+      )
     }
 
     setIsValid(true)
-
-    dispatch(calendarAddNewEvent(formValues))
 
     return closeModal()
   }
