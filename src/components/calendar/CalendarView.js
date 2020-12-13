@@ -3,11 +3,15 @@ import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import { useDispatch, useSelector } from 'react-redux'
 import { uiHandleModal } from '../../actions/uiAction'
-import { calendarActiveEvent } from '../../actions/calendarAction'
-import { AddNewFABtn, NavBar } from '../ui'
+import {
+  calendarActiveEvent,
+  calendarActiveEventDeleted,
+  calendarClearActiveEvent,
+} from '../../actions/calendarAction'
 import { messages } from '../../helpers/calendar-messages-es'
 import CalendarEvent from './CalendarEvent'
 import CalendarModal from './CalendarModal'
+import { FABtn, NavBar } from '../ui'
 import 'moment/locale/es'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
@@ -27,7 +31,7 @@ const localizer = momentLocalizer(moment)
 
 const CalendarView = () => {
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month')
-  const { events } = useSelector((state) => state.calendar)
+  const { events, activeEvent } = useSelector((state) => state.calendar)
   const dispatch = useDispatch()
 
   const onDoubleClick = () => {
@@ -35,13 +39,16 @@ const CalendarView = () => {
   }
 
   const onSelectEvent = (e) => {
-    console.log(e)
     dispatch(calendarActiveEvent(e))
   }
 
   const onView = (e) => {
     setLastView(e)
     localStorage.setItem('lastView', e)
+  }
+
+  const onSelectSlot = () => {
+    dispatch(calendarClearActiveEvent())
   }
 
   const eventStyleGetter = (event, start, end, isSelected) => {
@@ -85,11 +92,15 @@ const CalendarView = () => {
           onSelectEvent={onSelectEvent}
           onView={onView}
           view={lastView}
+          onSelectSlot={onSelectSlot}
+          selectable
         />
 
         <CalendarModal />
 
-        <AddNewFABtn />
+        {activeEvent && <FABtn name="Remove" handleFunction={calendarActiveEventDeleted} />}
+
+        <FABtn name="Add" handleFunction={uiHandleModal} />
       </div>
     </div>
   )

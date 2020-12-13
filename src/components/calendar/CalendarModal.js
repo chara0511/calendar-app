@@ -30,8 +30,8 @@ const nowPlusOneHour = now.clone().add(1, 'hours')
 const initialFormValues = {
   title: '',
   notes: '',
-  start: null,
-  end: null,
+  start: now.toDate(),
+  end: nowPlusOneHour.toDate(),
 }
 
 const CalendarModal = () => {
@@ -49,6 +49,8 @@ const CalendarModal = () => {
       setStartDate(activeEvent.start)
       setEndDate(activeEvent.end)
       setFormValues(activeEvent)
+    } else {
+      setFormValues(initialFormValues)
     }
   }, [activeEvent])
 
@@ -121,7 +123,7 @@ const CalendarModal = () => {
       overlayClassName="modal-fondo"
       closeTimeoutMS={300}
     >
-      <h1> Nuevo evento </h1>
+      <h1>{activeEvent ? 'Edita el evento' : 'Nuevo evento'}</h1>
 
       <hr />
 

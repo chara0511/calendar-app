@@ -7,3 +7,4 @@ export const calendarActiveEventUpdated = (event) => ({
   type: types.calendarActiveEventUpdated,
   payload: event,
 })
+export const calendarActiveEventDeleted = () => ({ type: types.calendarActiveEventDeleted })
