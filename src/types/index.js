@@ -10,6 +10,7 @@ export const types = {
   authStartLogin: '[auth]START LOGIN',
   authLogged: '[auth]LOGGED',
   authStartRegister: '[auth]START REGISTER',
+  authRegistered: '[auth]REGISTERED',
   authTokenRenew: '[auth]TOKEN RENEW',
   authLogout: '[auth]LOGOUT',
 }
