@@ -1,3 +1,5 @@
+import fetch from 'isomorphic-unfetch'
+
 const baseURL = process.env.REACT_APP_API_URL
 
 const fetchAuthWithoutToken = (endpoint, data, method = 'GET') => {
@@ -9,7 +11,10 @@ const fetchAuthWithoutToken = (endpoint, data, method = 'GET') => {
 
   return fetch(url, {
     method,
-    headers: { 'Content-type': 'aplication/json' },
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      Accept: 'application/json, text/plain, */*',
+    },
     body: JSON.stringify(data),
   })
 }

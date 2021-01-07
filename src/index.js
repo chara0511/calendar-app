@@ -4,9 +4,4 @@ import CalendarApp from './CalendarApp'
 import 'bootstrap/dist/css/bootstrap.css'
 import './globals.css'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <CalendarApp />
-  </React.StrictMode>,
-  document.getElementById('root'),
-)
+ReactDOM.render(<CalendarApp />, document.getElementById('root'))
