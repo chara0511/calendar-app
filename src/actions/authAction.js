@@ -48,3 +48,10 @@ export const startChecking = () => async (dispatch) => {
     dispatch(checkingFinished())
   }
 }
+
+const logout = () => ({ type: types.authLogout })
+
+export const startLogout = () => (dispatch) => {
+  localStorage.clear()
+  dispatch(logout())
+}
