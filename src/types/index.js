@@ -1,16 +1,16 @@
 export const types = {
   uiHandleModal: '[ui]HANDLE MODAL',
+
   calendarActiveEvent: '[calendar]ACTIVE EVENT',
   calendarAddNewEvent: '[calendar]ADD NEW EVENT',
   calendarClearActiveEvent: '[calendar]CLEAR ACTIVE EVENT',
   calendarActiveEventUpdated: '[calendar]ACTIVE EVENT UPDATED',
   calendarActiveEventDeleted: '[calendar]ACTIVE EVENT DELETED',
-  authChecking: '[auth]CHECKING LOGIN STATE',
+
   authCheckingFinished: '[auth]CHECKING FINISHED LOGIN STATE',
   authStartLogin: '[auth]START LOGIN',
   authLogged: '[auth]LOGGED',
   authStartRegister: '[auth]START REGISTER',
-  authRegistered: '[auth]REGISTERED',
   authTokenRenew: '[auth]TOKEN RENEW',
   authLogout: '[auth]LOGOUT',
 }

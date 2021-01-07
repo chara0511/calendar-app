@@ -1,5 +1,5 @@
 import Swal from 'sweetalert2'
-import { fetchAuthWithoutToken } from '../helpers/fetchAuth'
+import { fetchAuthWithoutToken, fetchAuthWithToken } from '../helpers/fetchAuth'
 import { types } from '../types'
 
 const logged = (user) => ({
@@ -25,19 +25,26 @@ export const startLogin = (email, password) => async (dispatch) => {
     Swal.fire('Error', body.msg, 'error')
   }
 }
-
-const registered = (newUser) => ({
-  type: types.authRegistered,
-  payload: newUser,
-})
-
 export const startRegister = (name, email, password) => async (dispatch) => {
   const res = await fetchAuthWithoutToken('auth/new', { name, email, password }, 'POST')
   const body = await res.json()
 
   if (body.ok) {
-    dispatch(registered({ uid: body.uid, name: body.name }))
+    dispatch(logged({ uid: body.uid, name: body.name }))
   } else {
     Swal.fire('Error', body.msg, 'error')
+  }
+}
+
+const checkingFinished = () => ({ type: types.authCheckingFinished })
+
+export const startChecking = () => async (dispatch) => {
+  const res = await fetchAuthWithToken('auth/refresh')
+  const body = await res.json()
+
+  if (body.ok) {
+    dispatch(logged({ uid: body.uid, name: body.name }))
+  } else {
+    dispatch(checkingFinished())
   }
 }
