@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2'
 import { fetchAuthWithoutToken, fetchAuthWithToken } from '../helpers/fetchAuth'
 import { types } from '../types'
+import { calendarEventLogout } from './calendarAction'
 
 const logged = (user) => ({
   type: types.authLogged,
@@ -53,5 +54,6 @@ const logout = () => ({ type: types.authLogout })
 
 export const startLogout = () => (dispatch) => {
   localStorage.clear()
+  dispatch(calendarEventLogout())
   dispatch(logout())
 }

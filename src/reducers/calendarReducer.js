@@ -50,8 +50,11 @@ export const calendarReducer = (state = initialState, action) => {
       return {
         ...state,
         events: state.events.filter((e) => e._id !== state.activeEvent._id),
-        activeEvent: null,
+        activeEvent: initialState.activeEvent,
       }
+
+    case types.calendarEventLogout:
+      return { ...initialState }
 
     default:
       return state

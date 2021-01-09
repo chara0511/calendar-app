@@ -13,7 +13,7 @@ export const calendarStartAddNewEvent = (calendarEvent) => async (dispatch, getS
     const body = await res.json()
 
     if (body.ok) {
-      calendarEvent.id = body.calendarEvent._id
+      calendarEvent._id = body.calendarEvent._id
       calendarEvent.user = { _id: uid, name }
 
       dispatch(calendarAddNewEvent(calendarEvent))
@@ -80,3 +80,5 @@ export const calendarStartEventDelete = () => async (dispatch, getState) => {
     console.log(error)
   }
 }
+
+export const calendarEventLogout = () => ({ type: types.calendarEventLogout })

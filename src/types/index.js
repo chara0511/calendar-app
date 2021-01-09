@@ -8,6 +8,7 @@ export const types = {
   calendarClearActiveEvent: '[calendar]CLEAR ACTIVE EVENT',
   calendarEventUpdated: '[calendar]EVENT UPDATED',
   calendarEventDeleted: '[calendar]EVENT DELETED',
+  calendarEventLogout: '[calendar]EVENT LOGOUT',
 
   authCheckingFinished: '[auth]CHECKING FINISHED LOGIN STATE',
   authStartLogin: '[auth]START LOGIN',
