@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import { convertDate } from '../helpers/convertDate'
 import { fetchAuthWithToken } from '../helpers/fetchAuth'
 import { types } from '../types'
 
@@ -21,6 +22,23 @@ export const calendarStartAddNewEvent = (calendarEvent) => async (dispatch, getS
   }
 }
 
+const calendarEventsLoaded = (calendarEvents) => ({
+  type: types.calendarEventsLoaded,
+  payload: calendarEvents,
+})
+
+export const calendarStartEventsLoading = () => async (dispatch) => {
+  try {
+    const res = await fetchAuthWithToken('calendar')
+    const body = await res.json()
+
+    const calendarEvents = convertDate(body.calendarEvents)
+
+    dispatch(calendarEventsLoaded(calendarEvents))
+  } catch (error) {
+    console.log(error)
+  }
+}
 export const calendarActiveEvent = (event) => ({ type: types.calendarActiveEvent, payload: event })
 export const calendarClearActiveEvent = () => ({ type: types.calendarClearActiveEvent })
 export const calendarActiveEventUpdated = (event) => ({

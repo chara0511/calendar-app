@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,6 +7,7 @@ import {
   calendarActiveEvent,
   calendarActiveEventDeleted,
   calendarClearActiveEvent,
+  calendarStartEventsLoading,
 } from '../../actions/calendarAction'
 import { messages } from '../../helpers/calendar-messages-es'
 import CalendarEvent from './CalendarEvent'
@@ -32,7 +33,13 @@ const localizer = momentLocalizer(moment)
 const CalendarView = () => {
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month')
   const { events, activeEvent } = useSelector((state) => state.calendar)
+  const { uid } = useSelector((state) => state.auth)
+
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(calendarStartEventsLoading())
+  }, [dispatch])
 
   const onDoubleClick = () => {
     dispatch(uiHandleModal())
@@ -55,7 +62,7 @@ const CalendarView = () => {
     console.log({ event, start, end, isSelected })
 
     const style = {
-      backgroundColor: '#367cf7',
+      backgroundColor: uid === event.user._id ? '#367cf7' : '#465660',
       borderRadius: '0px',
       opacity: 0.8,
       display: 'block',
