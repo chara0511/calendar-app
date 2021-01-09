@@ -52,8 +52,6 @@ export const calendarStartEventUpdate = (calendarEvent) => async (dispatch) => {
   try {
     const res = await fetchAuthWithToken(`calendar/${calendarEvent._id}`, calendarEvent, 'PUT')
     const body = await res.json()
-
-    console.log(calendarEvent)
     if (body.ok) {
       dispatch(calendarEventUpdated(calendarEvent))
     } else {
@@ -64,4 +62,21 @@ export const calendarStartEventUpdate = (calendarEvent) => async (dispatch) => {
   }
 }
 
-export const calendarActiveEventDeleted = () => ({ type: types.calendarEventDeleted })
+const calendarEventDeleted = () => ({ type: types.calendarEventDeleted })
+
+export const calendarStartEventDelete = () => async (dispatch, getState) => {
+  const { _id } = getState().calendar.activeEvent
+  console.log(_id)
+  try {
+    const res = await fetchAuthWithToken(`calendar/${_id}`, {}, 'DELETE')
+    const body = await res.json()
+
+    if (body.ok) {
+      dispatch(calendarEventDeleted())
+    } else {
+      Swal.fire('Error', body.msg, 'error')
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}

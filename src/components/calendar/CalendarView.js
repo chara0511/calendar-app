@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { uiHandleModal } from '../../actions/uiAction'
 import {
   calendarActiveEvent,
-  calendarActiveEventDeleted,
+  calendarStartEventDelete,
   calendarClearActiveEvent,
   calendarStartEventsLoading,
 } from '../../actions/calendarAction'
@@ -105,7 +105,7 @@ const CalendarView = () => {
 
         <CalendarModal />
 
-        {activeEvent && <FABtn name="Remove" handleFunction={calendarActiveEventDeleted} />}
+        {activeEvent && <FABtn name="Remove" handleFunction={calendarStartEventDelete} />}
 
         <FABtn name="Add" handleFunction={uiHandleModal} />
       </div>

@@ -50,7 +50,7 @@ export const calendarReducer = (state = initialState, action) => {
       return {
         ...state,
         events: state.events.filter((e) => e._id !== state.activeEvent._id),
-        activeEvent: initialState.activeEvent,
+        activeEvent: null,
       }
 
     default:
