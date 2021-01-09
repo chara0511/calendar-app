@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import Swal from 'sweetalert2'
 import { convertDate } from '../helpers/convertDate'
 import { fetchAuthWithToken } from '../helpers/fetchAuth'
 import { types } from '../types'
@@ -41,8 +42,26 @@ export const calendarStartEventsLoading = () => async (dispatch) => {
 }
 export const calendarActiveEvent = (event) => ({ type: types.calendarActiveEvent, payload: event })
 export const calendarClearActiveEvent = () => ({ type: types.calendarClearActiveEvent })
-export const calendarActiveEventUpdated = (event) => ({
-  type: types.calendarActiveEventUpdated,
-  payload: event,
+
+const calendarEventUpdated = (calendarEvent) => ({
+  type: types.calendarEventUpdated,
+  payload: calendarEvent,
 })
-export const calendarActiveEventDeleted = () => ({ type: types.calendarActiveEventDeleted })
+
+export const calendarStartEventUpdate = (calendarEvent) => async (dispatch) => {
+  try {
+    const res = await fetchAuthWithToken(`calendar/${calendarEvent._id}`, calendarEvent, 'PUT')
+    const body = await res.json()
+
+    console.log(calendarEvent)
+    if (body.ok) {
+      dispatch(calendarEventUpdated(calendarEvent))
+    } else {
+      Swal.fire('Error', body.msg, 'error')
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const calendarActiveEventDeleted = () => ({ type: types.calendarEventDeleted })
