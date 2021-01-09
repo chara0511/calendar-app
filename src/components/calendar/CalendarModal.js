@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
 import { uiHandleModal } from '../../actions/uiAction'
 import {
   calendarActiveEventUpdated,
-  calendarAddNewEvent,
+  calendarStartAddNewEvent,
   calendarClearActiveEvent,
 } from '../../actions/calendarAction'
 import './CalendarModal.css'
@@ -99,13 +99,7 @@ const CalendarModal = () => {
     if (activeEvent) {
       dispatch(calendarActiveEventUpdated(formValues))
     } else {
-      dispatch(
-        calendarAddNewEvent({
-          ...formValues,
-          id: new Date().getTime(),
-          user: { _id: '123', name: 'Fer-' },
-        }),
-      )
+      dispatch(calendarStartAddNewEvent(formValues))
     }
 
     setIsValid(true)
