@@ -7,15 +7,15 @@ import './login.css'
 
 const LoginView = () => {
   const [formLoginValues, handleLoginInputChange] = useForm({
-    loginEmail: 'chara@gmail.com',
-    loginPassword: 'bcde1',
+    loginEmail: '',
+    loginPassword: '',
   })
 
   const [formSignupValues, handleSignupInputChange] = useForm({
-    signupName: 'carlos',
-    signupEmail: 'carlos@gmail.com',
-    signupPassword: 'bcde1',
-    signupRepeatPassword: 'bcde1',
+    signupName: '',
+    signupEmail: '',
+    signupPassword: '',
+    signupRepeatPassword: '',
   })
   const dispatch = useDispatch()
 
@@ -64,6 +64,8 @@ const LoginView = () => {
                 onChange={handleLoginInputChange}
               />
             </div>
+
+            <p className="form-text">test@gmail.com bcde1</p>
             <div className="form-group">
               <input type="submit" className="btnSubmit" value="Login" />
             </div>
